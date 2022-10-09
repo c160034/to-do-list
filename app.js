@@ -47,6 +47,11 @@ app.delete('/index/:id', (req, res) => {
     item1=items.slice(0,id);
     item2=items.slice(parseInt(id)+1);
     items=item1.concat(item2);
+    let i=0;
+    for (let item of items){
+        item.id=i
+        i++;
+    }
     res.redirect('/index');
 })
 

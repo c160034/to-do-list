@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit To-Do</title>
+</head>
+
+<body>
+    <h1>Edit To-Do</h1>
+    <form action="/index/<%=item.id%>?_method=PUT" method="POST">
+        <input type="hidden" id="id" name="item[id]" value="<%=item.id %>">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="item[title]" value="<%=item.title %>">
+        </div>
+        <div>
+            <label for="deadline">Deadline</label>
+            <input type="date" id="deadline" name="item[deadline]" value="<%= item.deadline%>">
+        </div>
+        <button>Update To-Do</button>
+    </form>
+    <a href="/index">Back To All To-Do</a>
+
+</body>
+
+</html>

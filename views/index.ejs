@@ -14,7 +14,14 @@
     </div>
     <ul>
         <% for (let item of items){%>
-        <li><%= item %></a></li>
+        <li><%= item.title %> 
+            <p> 
+                <a href="/<%= item.id %>/edit">Edit</a>
+            </p> 
+            <form action="/index/<%= item.id %>?_method=DELETE" method="POST">
+                <button>Delete</button>
+            </form>
+        </li>
         <% }%>
     </ul>
 

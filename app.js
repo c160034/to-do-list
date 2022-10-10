@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
     res.render('home')
 });
 
-items = [{id:0, title:"update", deadline: ""}, {id:1, title:"clean", deadline: ""}, {id:2, title:"return", deadline: ""}]
+items = [{id:0, title:"update", deadline: "2022-10-10"}, {id:1, title:"clean", deadline: "2022-10-11"}, {id:2, title:"return", deadline: "2022-10-15"}]
 
 app.get('/index', (req, res) => {
     res.render('index', { items })
@@ -21,8 +21,13 @@ app.get('/new', (req, res) => {
 })
 
 app.post('/index', (req, res) => {
-    req.body.item.id=items.length
     items.push(req.body.item)
+    items.sort((a, b)=>a.deadline.split('-').join('')-b.deadline.split('-').join(''))
+    let i=0;
+    for (let item of items){
+        item.id=i
+        i++;
+    }
     res.redirect('/index')
 })
 
@@ -39,6 +44,7 @@ app.put('/index/:id', (req, res) => {
         deadline: req.body.item.deadline
     }
     items.splice(id, 1, newItem);
+    console.log(newItem.deadline)
     res.redirect('/index')
 });
 

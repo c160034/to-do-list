@@ -2,14 +2,20 @@
 <div class="row">
     <h1 class="text-center">New To-Do</h1>
     <div class="col-6 offset-3">
-        <form action="/index" method="POST">
+        <form action="/index" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="item[title]" placeholder="title">
+                <input class="form-control" type="text" id="title" name="item[title]" placeholder="title" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="deadline">Deadline</label>
-                <input class="form-control" type="date" id="deadline" name="item[deadline]">
+                <input class="form-control" type="date" id="deadline" name="item[deadline]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Add To-Do</button>

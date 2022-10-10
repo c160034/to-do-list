@@ -2,16 +2,22 @@
 <div class="row">
     <h1 class="text-center">Edit To-Do</h1>
     <div class="col-6 offset-3">
-        <form action="/index/<%=item.id%>?_method=PUT" method="POST">
+        <form action="/index/<%=item.id%>?_method=PUT" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" id="title" name="item[title]"
-                    value="<%=item.title %>">
+                    value="<%=item.title %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="deadline">Location</label>
                 <input class="form-control" type="date" id="deadline" name="item[deadline]"
-                    value="<%= item.deadline%>">
+                    value="<%= item.deadline%>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-info">Update To-Do</button>

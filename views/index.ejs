@@ -15,7 +15,12 @@
     <ul>
         <% for (let item of items){%>
         <li><%= item.title %> 
-            <%= item.deadline %> 
+            <% let date = new Date().toJSON().slice(0,10) %> 
+            <% if (item.deadline!=date) { %> 
+                <span> by </span><%= item.deadline %> 
+            <% } else { %> 
+                <span> by Today </span> 
+            <% } %>
             <p> 
                 <a href="/<%= item.id %>/edit">Edit</a>
             </p> 

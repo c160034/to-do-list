@@ -1,0 +1,30 @@
+<% layout('/layouts/boilerplate')%>
+<h1>To-Do-List</h1>
+<div class="mb-3">
+    <a class="ml-2 text-muted" href="/new">Add New</a>
+</div>
+<% for (let item of items){%>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title d-inline"><%= item.title %> </h5>
+        <div class="d-inline float-right">
+            <a class="card-link btn btn-info" href="/<%= item.id %>/edit">Edit</a>
+            <form class="d-inline" action="/index/<%= item.id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">&#128465;</button>
+            </form>
+        </div>
+        <div>
+            <% let date = new Date().toJSON().slice(0,10) %> 
+            <% if (item.deadline!=date) { %> 
+                <span class="card-text">
+                    <small class="text-muted">due by <%= item.deadline%></small>
+                </span>
+            <% } else { %> 
+                <span class="card-text"> 
+                    <small class="text-muted">due by today</small> 
+                </span> 
+            <% } %>
+        </div>
+    </div>
+</div>
+<% }%>

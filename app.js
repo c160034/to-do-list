@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const ToDo = require('./models/todo');
+const Item = require('./models/item');
 
 mongoose.connect('mongodb://localhost:27017/to-do-list', {
     useNewUrlParser: true,
@@ -19,7 +19,6 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
@@ -27,9 +26,8 @@ app.get('/', (req, res) => {
     res.render('home')
 });
 
-items = [{id:0, title:"update", deadline: "2022-10-10"}, {id:1, title:"clean", deadline: "2022-10-11"}, {id:2, title:"return", deadline: "2022-10-15"}]
-
-app.get('/index', (req, res) => {
+app.get('/index', async(req, res) => {
+    const items = await Item.find({});
     res.render('index', { items })
 });
 
@@ -37,49 +35,26 @@ app.get('/new', (req, res) => {
     res.render('new');
 })
 
-app.post('/index', (req, res) => {
-    items.push(req.body.item)
-    items.sort((a, b)=>a.deadline.split('-').join('')-b.deadline.split('-').join(''))
-    let i=0;
-    for (let item of items){
-        item.id=i
-        i++;
-    }
+app.post('/index', async(req, res) => {
+    const item = new Item(req.body.item);
+    await item.save();
     res.redirect('/index')
 })
 
-app.get('/:id/edit', (req, res) => {
-    const item = items.filter(item => item.id == req.params.id)[0]
+app.get('/:id/edit', async(req, res) => {
+    const item = await Item.findById(req.params.id)
     res.render('edit', { item } );
 })
 
-app.put('/index/:id', (req, res) => {
+app.put('/index/:id', async(req, res) => {
     const { id } = req.params;
-    newItem = { 
-        id: parseInt(id),
-        title: req.body.item.title,
-        deadline: req.body.item.deadline
-    }
-    items.splice(id, 1, newItem);
-    items.sort((a, b)=>a.deadline.split('-').join('')-b.deadline.split('-').join(''))
-    let i=0;
-    for (let item of items){
-        item.id=i
-        i++;
-    }
+    const item = await Item.findByIdAndUpdate(id, { ...req.body.item });
     res.redirect('/index')
 });
 
-app.delete('/index/:id', (req, res) => {
+app.delete('/index/:id', async(req, res) => {
     const { id } = req.params;
-    item1=items.slice(0,id);
-    item2=items.slice(parseInt(id)+1);
-    items=item1.concat(item2);
-    let i=0;
-    for (let item of items){
-        item.id=i
-        i++;
-    }
+    await Item.findByIdAndDelete(id);
     res.redirect('/index');
 })
 

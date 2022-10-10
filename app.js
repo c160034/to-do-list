@@ -1,11 +1,13 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const { itemSchema } = require('./schemas.js');
-const catchAsync = require('./utils/catchAsync');
+const session = require('express-session');
+const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
-const Item = require('./models/item');
+
+const items = require('./routes/items');
 
 mongoose.connect('mongodb://localhost:27017/to-do-list', {
     useNewUrlParser: true,
@@ -23,55 +25,37 @@ const app = express();
 
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')))
 
-const validateItem = (req, res, next) => {
-    const { error } = itemSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next();
+
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }
+app.use(session(sessionConfig))
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
+app.use('', items)
 
 app.get('/', (req, res) => {
     res.render('home')
 });
-
-app.get('/index', catchAsync(async(req, res) => {
-    const items = await Item.find({});
-    res.render('items/index', { items })
-}));
-
-app.get('/new', (req, res) => {
-    res.render('items/new');
-})
-
-app.post('/index', validateItem, catchAsync(async(req, res) => {
-    const item = new Item(req.body.item);
-    await item.save();
-    res.redirect('/index')
-}))
-
-app.get('/:id/edit', catchAsync(async(req, res) => {
-    const item = await Item.findById(req.params.id)
-    res.render('items/edit', { item } );
-}))
-
-app.put('/index/:id', validateItem, catchAsync(async(req, res) => {
-    const { id } = req.params;
-    const item = await Item.findByIdAndUpdate(id, { ...req.body.item });
-    res.redirect('/index')
-}));
-
-app.delete('/index/:id', catchAsync(async(req, res) => {
-    const { id } = req.params;
-    await Item.findByIdAndDelete(id);
-    res.redirect('/index');
-}))
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))

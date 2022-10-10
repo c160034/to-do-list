@@ -1,7 +1,24 @@
 const express = require('express');
-const app = express();
-app.set('view engine', 'ejs');
+const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const ToDo = require('./models/todo');
+
+mongoose.connect('mongodb://localhost:27017/to-do-list', {
+    useNewUrlParser: true,
+    // useCreateIndex: true,
+    useUnifiedTopology: true
+});
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
+
+const app = express();
+
+app.set('view engine', 'ejs');
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
@@ -44,7 +61,12 @@ app.put('/index/:id', (req, res) => {
         deadline: req.body.item.deadline
     }
     items.splice(id, 1, newItem);
-    console.log(newItem.deadline)
+    items.sort((a, b)=>a.deadline.split('-').join('')-b.deadline.split('-').join(''))
+    let i=0;
+    for (let item of items){
+        item.id=i
+        i++;
+    }
     res.redirect('/index')
 });
 

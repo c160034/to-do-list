@@ -1,13 +1,20 @@
 <% layout('layouts/boilerplate')%>
-<form action="/index" method="POST">
-    <div>
-        <label for="title">Title</label>
-        <input type="text" id="title" name="item[title]">
+<div class="row">
+    <h1 class="text-center">New To-Do</h1>
+    <div class="col-6 offset-3">
+        <form action="/index" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="item[title]" placeholder="title">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="deadline">Deadline</label>
+                <input class="form-control" type="date" id="deadline" name="item[deadline]">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add To-Do</button>
+            </div>
+        </form>
+        <a class="text-muted">Back to Index</a>
     </div>
-    <div>
-        <label for="deadline">Deadline</label>
-        <input type="date" id="deadline" name="item[deadline]">
-    </div>
-    <button>Add To-Do</button>
-</form>
-<a href="/index">All To-Do</a>
+</div>

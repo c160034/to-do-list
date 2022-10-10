@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-List</title>
+</head>
+
+<body>
+    <h1>To-Do-List</h1>
+    <div>
+        <a href="/new">Add To-Do</a>
+    </div>
+    <ul>
+        <% for (let item of items){%>
+        <li><%= item.title %> 
+            <% let date = new Date().toJSON().slice(0,10) %> 
+            <% if (item.deadline!=date) { %> 
+                <span> by </span><%= item.deadline %> 
+            <% } else { %> 
+                <span> by Today </span> 
+            <% } %>
+            <p> 
+                <a href="/<%= item.id %>/edit">Edit</a>
+            </p> 
+            <form action="/index/<%= item.id %>?_method=DELETE" method="POST">
+                <button>Delete</button>
+            </form>
+        </li>
+        <% }%>
+    </ul>
+
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
+const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Item = require('./models/item');
 
@@ -17,6 +19,7 @@ db.once("open", () => {
 
 const app = express();
 
+app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({ extended: true }));
@@ -28,11 +31,11 @@ app.get('/', (req, res) => {
 
 app.get('/index', async(req, res) => {
     const items = await Item.find({});
-    res.render('index', { items })
+    res.render('items/index', { items })
 });
 
 app.get('/new', (req, res) => {
-    res.render('new');
+    res.render('items/new');
 })
 
 app.post('/index', async(req, res) => {
@@ -43,7 +46,7 @@ app.post('/index', async(req, res) => {
 
 app.get('/:id/edit', async(req, res) => {
     const item = await Item.findById(req.params.id)
-    res.render('edit', { item } );
+    res.render('items/edit', { item } );
 })
 
 app.put('/index/:id', async(req, res) => {

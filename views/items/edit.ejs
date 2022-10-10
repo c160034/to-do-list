@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit To-Do</title>
-</head>
-
-<body>
+<% layout('layouts/boilerplate')%>
     <h1>Edit To-Do</h1>
     <form action="/index/<%=item.id%>?_method=PUT" method="POST">
         <div>
@@ -21,7 +12,3 @@
         <button>Update To-Do</button>
     </form>
     <a href="/index">Back To All To-Do</a>
-
-</body>
-
-</html>

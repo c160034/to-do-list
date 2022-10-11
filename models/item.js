@@ -8,6 +8,7 @@ const ItemSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    complete: Boolean,
 });
 
 module.exports = mongoose.model('Item', ItemSchema);

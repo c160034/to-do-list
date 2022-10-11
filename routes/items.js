@@ -38,6 +38,14 @@ router.put('/index/:id', isLoggedIn, isAuthor, validateItem, catchAsync(async(re
     res.redirect('/index')
 }));
 
+router.put('/:id', isLoggedIn, catchAsync(async(req, res) => {
+    const item = await Item.findById(req.params.id)
+    item.complete = !item.complete;
+    await item.save();
+    if (item.complete) req.flash('success', 'Completed item!');
+    res.redirect('/index')
+}))
+
 router.delete('/index/:id', isLoggedIn, isAuthor, catchAsync(async(req, res) => {
     const { id } = req.params;
     await Item.findByIdAndDelete(id);

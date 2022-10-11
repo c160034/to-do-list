@@ -4,21 +4,22 @@
 <div class="mb-3">
     <a class="ml-2 text-muted" href="/new">Add New</a>
 </div>
+<% items.sort(function(x,y){return x.deadline.split('-').join('')-y.deadline.split('-').join('')}) %>
 <% for (let item of items){%>
     <% if (!item.complete){%>
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title d-inline ml-3"><%= item.title %> </h5>
-                <div class="d-inline ml-3 float-right">
-                <form class="d-inline" action="/<%= item.id %>?_method=PUT" method="POST">
-                    <button class="btn btn-success">Complete</button>
-                </form>
-                </div>  
-                <%  if( currentUser && item.author.equals(currentUser._id))  {%>
+                <%  if(currentUser)  {%>
                 <div class="d-inline float-right">
+                    <%  if(item.author.equals(currentUser._id))  {%>
                     <a class="card-link btn btn-info" href="/<%= item.id %>/edit">Edit</a>
                     <form class="d-inline" action="/index/<%= item.id %>?_method=DELETE" method="POST">
                         <button class="btn btn-danger">&#128465;</button>
+                    </form>
+                    <% } %>
+                    <form class="d-inline" action="/<%= item.id %>?_method=PUT" method="POST">
+                        <button class="btn btn-success">Mark Completed</button>
                     </form>
                 </div>
                 <% } %>
@@ -40,16 +41,16 @@
         <div class="card done">
             <div class="card-body">
                 <h5 class="card-title d-inline ml-3"><%= item.title %> </h5>
-                <div class="d-inline ml-3 float-right">
-                    <form class="d-inline" action="/<%= item.id %>?_method=PUT" method="POST">
-                        <button class="btn btn-warning">Mark as Incomplete</button>
-                    </form>
-                    </div>  
-                <%  if( currentUser && item.author.equals(currentUser._id))  {%>
+                <%  if(currentUser)  {%>
                 <div class="d-inline float-right">
+                    <%  if(item.author.equals(currentUser._id))  {%>
                     <a class="card-link btn btn-info" href="/<%= item.id %>/edit">Edit</a>
                     <form class="d-inline" action="/index/<%= item.id %>?_method=DELETE" method="POST">
                         <button class="btn btn-danger">&#128465;</button>
+                    </form>
+                    <% } %>
+                    <form class="d-inline" action="/<%= item.id %>?_method=PUT" method="POST">
+                        <button class="btn btn-warning">Mark Incomplete</button>
                     </form>
                 </div>
                 <% } %>

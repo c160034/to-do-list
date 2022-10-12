@@ -17,11 +17,11 @@
                 <div class="d-inline float-right">
                     <%  if(item.author.equals(currentUser._id)) {%>
                     <a class="card-link btn btn-info" href="/<%= item.id %>/edit">Edit</a>
-                    <form class="d-inline" action="/index/<%= item.id %>?_method=DELETE" method="POST">
+                    <form class="d-inline" action="/<%= item.id %>?_method=DELETE" method="POST">
                         <button class="btn btn-danger">&#128465;</button>
                     </form>
                     <% } %>
-                    <form class="d-inline" action="/<%= item.id %>?_method=PUT" method="POST">
+                    <form class="d-inline" action="/index/<%= item.id %>?_method=PUT" method="POST">
                             <% if (!item.complete){%>
                                 <button class="btn btn-success">Mark Completed</button>
                             <% } else {%>
@@ -42,7 +42,7 @@
                             <% } %>    
                         </small>
                     </span>
-                    <div class="ml-3"><a href="/<%=item._id%>/comments"><%= item.comments.length%> Comment(s)</a></div>
+                    <div class="ml-3"><a href="/<%=item._id%>"><%= item.comments.length%> Comment(s)</a></div>
                 </div>
             </div>
         </div>

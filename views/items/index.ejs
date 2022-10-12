@@ -12,7 +12,7 @@
         <div class="card done">
     <% } %>
             <div class="card-body">
-                <h5 class="card-title d-inline ml-3"><%= item.title %> </h5>
+                <h3 class="card-title d-inline ml-3"><%= item.title %> </h3>
                 <%  if(currentUser)  {%>
                 <div class="d-inline float-right">
                     <%  if(item.author.equals(currentUser._id)) {%>
@@ -29,6 +29,7 @@
                             <% } %>
                     </form>
                 </div>
+                <div class="ml-3 mt-2"><%= item.description %></div>
                 <% } %>
                 <div>
                     <% let date = new Date().toJSON().slice(0,10) %> 

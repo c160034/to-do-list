@@ -54,7 +54,8 @@ router.put('/:id', isLoggedIn, catchAsync(async(req, res) => {
     item.complete = !item.complete;
     await item.save();
     if (item.complete) req.flash('success', 'Completed item!');
-    res.redirect('/index')
+    else req.flash('success', 'Mark item as incomplete!')
+    res.redirect('/index');
 }))
 
 router.delete('/index/:id', isLoggedIn, isAuthor, catchAsync(async(req, res) => {

@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const ItemSchema = new Schema({
     title: String,
+    description: String,
     deadline: String,
     author: {
         type: Schema.Types.ObjectId,

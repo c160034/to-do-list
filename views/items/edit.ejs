@@ -12,6 +12,14 @@
                 </div>
             </div>
             <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="item[description]"
+                    required><%= item.description%></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
                 <label class="form-label" for="deadline">Location</label>
                 <input class="form-control" type="date" id="deadline" name="item[deadline]"
                     value="<%= item.deadline%>" required>

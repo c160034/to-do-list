@@ -5,14 +5,24 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title"><%= item.title%></h5>
+                <p class="card-text"><%= item.description%></p>
                 <p class="card-text">Submitted by <%= item.author.username%></p>
             </div>
+            <%  if(currentUser && item.author.equals(currentUser._id)) {%>
             <div class="card-body">
                 <a class="card-link btn btn-info" href="/<%=item._id%>/edit">Edit</a>
                 <form class="d-inline" action="/index/<%=item._id%>?_method=DELETE" method="POST">
                     <button class="btn btn-danger">Delete</button>
                 </form>
+                <form class="d-inline" action="/<%= item.id %>?_method=PUT" method="POST">
+                    <% if (!item.complete){%>
+                        <button class="btn btn-success">Mark Completed</button>
+                    <% } else {%>
+                        <button class="btn btn-warning">Mark Incomplete</button>
+                    <% } %>
+                </form>
             </div>
+            <% } %>
             <div class="card-footer text-muted">
                 due by <%= item.deadline%>
             </div>
@@ -24,7 +34,6 @@
             <h2>Leave a Comment</h2>
             <form action="/<%=item._id%>/comments" method="POST" class="mb-3 validated-form" novalidate>
                 <div class="mb-3">
-                    <label class="form-label" for="body">Comment</label>
                     <textarea class="form-control" name="comment[body]" id="body" cols="30" rows="3" required></textarea>
                     <div class="valid-feedback">
                         Looks good!
@@ -33,8 +42,9 @@
                 <button class="btn btn-success">Submit</button>
             </form>
         <% } %>
+        <label class="form-label" for="body">Comment(s)</label>
         <% for(let comment of item.comments) { %>
-            <div class="card mb-3 ">
+            <div class="card mb-3 "> 
                 <div class="card-body">
                     <h5 class="card-title"> <%= comment.author.username%></h5>
                     <p class="card-text"><%= comment.body %></p>

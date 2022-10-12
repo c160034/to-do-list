@@ -1,0 +1,22 @@
+.done {
+    background: #7dcd9d;
+    /* color: black; */
+}
+
+.done h5{
+    text-decoration: line-through;
+}
+
+.done::before {
+    content: '';
+    position: absolute;
+    border-color: black;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    top: 25px;
+    left: 18px;
+    transform: rotate(45deg);
+    height: 15px;
+    width: 7px;
+}
+

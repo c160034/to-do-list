@@ -8,66 +8,42 @@
 <% for (let item of items){%>
     <% if (!item.complete){%>
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title d-inline ml-3"><%= item.title %> </h5>
-                <%  if(currentUser)  {%>
-                <div class="d-inline float-right">
-                    <%  if(item.author.equals(currentUser._id))  {%>
-                    <a class="card-link btn btn-info" href="/<%= item.id %>/edit">Edit</a>
-                    <form class="d-inline" action="/index/<%= item.id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">&#128465;</button>
-                    </form>
-                    <% } %>
-                    <form class="d-inline" action="/<%= item.id %>?_method=PUT" method="POST">
-                        <button class="btn btn-success">Mark Completed</button>
-                    </form>
-                </div>
-                <% } %>
-                <div>
-                    <% let date = new Date().toJSON().slice(0,10) %> 
-                    <% if (item.deadline!=date) { %> 
-                        <span class="card-text ml-3">
-                            <small class="text-muted">due by <%= item.deadline%></small>
-                        </span>
-                    <% } else { %> 
-                        <span class="card-text ml-3"> 
-                            <small class="text-muted">due by today</small> 
-                        </span> 
-                    <% } %>
-                </div>
-            </div>
-        </div>
-        <% } else {%>
+    <% } else {%>
         <div class="card done">
+    <% } %>
             <div class="card-body">
                 <h5 class="card-title d-inline ml-3"><%= item.title %> </h5>
                 <%  if(currentUser)  {%>
                 <div class="d-inline float-right">
-                    <%  if(item.author.equals(currentUser._id))  {%>
+                    <%  if(item.author.equals(currentUser._id)) {%>
                     <a class="card-link btn btn-info" href="/<%= item.id %>/edit">Edit</a>
                     <form class="d-inline" action="/index/<%= item.id %>?_method=DELETE" method="POST">
                         <button class="btn btn-danger">&#128465;</button>
                     </form>
                     <% } %>
                     <form class="d-inline" action="/<%= item.id %>?_method=PUT" method="POST">
-                        <button class="btn btn-warning">Mark Incomplete</button>
+                            <% if (!item.complete){%>
+                                <button class="btn btn-success">Mark Completed</button>
+                            <% } else {%>
+                                <button class="btn btn-warning">Mark Incomplete</button>
+                            <% } %>
                     </form>
                 </div>
                 <% } %>
                 <div>
                     <% let date = new Date().toJSON().slice(0,10) %> 
-                    <% if (item.deadline!=date) { %> 
-                        <span class="card-text ml-3">
-                            <small class="text-muted">due by <%= item.deadline%></small>
-                        </span>
-                    <% } else { %> 
-                        <span class="card-text ml-3"> 
-                            <small class="text-muted">due by today</small> 
-                        </span> 
-                    <% } %>
+                    <span class="card-text ml-3">
+                        <small class="text-muted">due by 
+                            <% if (item.deadline!=date) { %> 
+                                <%= item.deadline%>
+                            <% } else { %> 
+                                today
+                            <% } %>    
+                        </small>
+                    </span>
+                    <div class="ml-3"><a href="/<%=item._id%>/comments"><%= item.comments.length%> Comment(s)</a></div>
                 </div>
             </div>
         </div>
-        <% } %>
-<% }%>
+<% } %>
 <script src='/javascripts/index.js'></script>

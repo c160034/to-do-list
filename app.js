@@ -12,6 +12,7 @@ const User = require('./models/user');
 
 const itemRoutes = require('./routes/items');
 const userRoutes = require('./routes/users');
+const commentRoutes = require('./routes/comments');
 
 mongoose.connect('mongodb://localhost:27017/to-do-list', {
     useNewUrlParser: true,
@@ -65,6 +66,7 @@ app.use((req, res, next) => {
 
 app.use('/', itemRoutes)
 app.use('/', userRoutes)
+app.use('/', commentRoutes)
 
 app.get('/', (req, res) => {
     res.render('home')

@@ -6,3 +6,9 @@ module.exports.itemSchema = Joi.object({
         deadline: Joi.date().required(),
     }).required()
 });
+
+module.exports.commentSchema = Joi.object({
+    comment: Joi.object({
+        body: Joi.string().required(),
+    }).required()
+});

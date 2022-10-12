@@ -1,4 +1,4 @@
-const { itemSchema } = require('./schemas.js'); 
+const { itemSchema, commentSchema } = require('./schemas.js'); 
 const ExpressError = require('./utils/ExpressError');
 const Item = require('./models/item');
 
@@ -23,6 +23,15 @@ module.exports.isAuthor = async (req, res, next) => {
 
 module.exports.validateItem = (req, res, next) => {
     const { error } = itemSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } 
+    next();
+}
+
+module.exports.validateComment = (req, res, next) => {
+    const { error } = commentSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)

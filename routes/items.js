@@ -22,6 +22,17 @@ router.post('/index', isLoggedIn, validateItem, catchAsync(async(req, res) => {
     res.redirect('/index')
 }))
 
+router.get('/:id/comments', catchAsync(async (req, res,) => {
+    const item = await Item.findById(req.params.id).populate({
+        path: 'comments',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
+    res.render('items/show', { item });
+}));
+
+
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async(req, res) => {
     const item = await Item.findById(req.params.id)
     if (!item) {

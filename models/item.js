@@ -9,6 +9,12 @@ const ItemSchema = new Schema({
         ref: 'User'
     },
     complete: Boolean,
+    comments: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 });
 
 module.exports = mongoose.model('Item', ItemSchema);

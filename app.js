@@ -14,7 +14,11 @@ const itemRoutes = require('./routes/items');
 const userRoutes = require('./routes/users');
 const commentRoutes = require('./routes/comments');
 
-mongoose.connect('mongodb://localhost:27017/to-do-list', {
+const MongoDBStore = require("connect-mongo");
+
+const dbUrl = 'mongodb://localhost:27017/to-do-list';
+
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     // useCreateIndex: true,
     useUnifiedTopology: true
@@ -39,8 +43,21 @@ app.use(mongoSanitize({
     replaceWith: '_'
 }))
 
+const secret = 'thisshouldbeabettersecret!';
+
+const store = MongoDBStore.create({
+    mongoUrl: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret!',
+    store,
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {

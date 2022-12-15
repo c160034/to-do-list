@@ -12,7 +12,7 @@ Visit [HERE](https://to-do-list-pmzc.onrender.com/) !
 * Bootstrap
 * MongoDB
 * Mongoose
-* Heroku
+* Render
 
 ### Key Features
 Apart from the usual CRUD functionality on the tasks, here are some key features that this app could do.

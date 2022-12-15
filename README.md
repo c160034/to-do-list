@@ -2,7 +2,7 @@
 
 A website for users to post tasks to complete as a team for better coordination and productivity.
 
-Visit [HERE](https://to-do-list-pmzc.onrender.com/) !
+Visit [HERE](https://my-to-do-list.onrender.com/) !
 
 
 ### Built With

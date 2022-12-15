@@ -2,7 +2,7 @@
 
 A website for users to post tasks to complete as a team for better coordination and productivity.
 
-Visit [HERE](http://my-to-do-list.herokuapp.com/) !
+Visit [HERE](https://to-do-list-pmzc.onrender.com/) !
 
 
 ### Built With
